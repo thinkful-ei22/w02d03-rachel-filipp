@@ -14,3 +14,9 @@ store.items.push(Item.create('apples'));
 // });
 
 // console.log(api.BASE_URL);
+
+// api.createItem('pears', (newItem) => {
+//   api.getItems((items) => {
+//     console.log(items);
+//   });
+// });
