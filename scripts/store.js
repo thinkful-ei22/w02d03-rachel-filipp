@@ -28,7 +28,7 @@ const store = (function(){
     Object.assign(item, newData);
     
     
-  }
+  };
 
   // const findAndUpdateName = function(id, name) {
   //   try {
