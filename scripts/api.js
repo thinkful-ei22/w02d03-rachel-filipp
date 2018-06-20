@@ -8,11 +8,6 @@ const api = (function() {
   const getItems = function(callback) {
     $.getJSON(`${BASE_URL}/items`, callback);
     
-    const item = store.items[0];
-    console.log('current name: ' + item.name);
-    store.findAndUpdate(item.id, { name: 'foobar' });
-    console.log('new name: ' + item.name);
-
     //callback('api module works!');
   };
 
