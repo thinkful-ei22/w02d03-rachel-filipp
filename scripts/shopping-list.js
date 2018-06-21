@@ -65,6 +65,8 @@ const shoppingList = (function(){
       api.createItem(newItemName, (newItem) => {
         store.addItem(newItem);
         render();
+      }, () => {
+        alert("There was an error with your request");
       });
     });
   }
@@ -78,20 +80,29 @@ const shoppingList = (function(){
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
-      store.findAndToggleChecked(id);
-      render();
+      const item = store.findById(id);
+      const newChecked = ! item.checked; 
+      const data = {checked: newChecked};
+      api.updateItem(id, data, () => {
+        store.findAndUpdate(id, data);
+        render();
+      }, () => {
+        alert("There was an error with your request");
+      });
     });
   }
   
   function handleDeleteItemClicked() {
     // like in `handleItemCheckClicked`, we use event delegation
     $('.js-shopping-list').on('click', '.js-item-delete', event => {
-      // get the index of the item in store.items
+      
       const id = getItemIdFromElement(event.currentTarget);
-      // delete the item
-      store.findAndDelete(id);
-      // render the updated shopping list
-      render();
+      api.deleteItem(id, () => {
+        store.findAndDelete(id);
+        render();
+      }, () => {
+        alert("There was an error with your request");
+      });
     });
   }
   
@@ -100,8 +111,15 @@ const shoppingList = (function(){
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
-      store.findAndUpdateName(id, itemName);
-      render();
+      const data = {name: itemName};
+      api.updateItem(id, data, () => {
+        store.findAndUpdateName(id, itemName);
+        render();
+      }, () => {
+        alert("There was an error with your request");
+        
+      });
+   
     });
   }
   

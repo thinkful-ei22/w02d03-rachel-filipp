@@ -11,7 +11,7 @@ const api = (function() {
     //callback('api module works!');
   };
 
-  const createItem = function(name, callback) {
+  const createItem = function(name, callback, errCallback) {
     const newItem = JSON.stringify({
       'name': name,
     });
@@ -21,19 +21,32 @@ const api = (function() {
       'contentType': 'application/json',
       'data': newItem,
       'success': callback,
+      'error': errCallback,
     });
   };
-  const updateItem = function(id, updateData, callback) { 
+  const updateItem = function(id, updateData, callback, errCallback) { 
+    console.log(updateData)
     $.ajax({ 
       'url': `${BASE_URL}/items/${id}`, 
       'method': 'PATCH', 
       'contentType': 'application/json', 
       'data': JSON.stringify(updateData), 
-      'success': callback, }); 
+      'success': callback, 
+      'error': errCallback,
+    }); 
   };
+
+  const deleteItem = function(id, callback, errCallback){
+    $.ajax({
+      'url': `${BASE_URL}/items/${id}`, 
+      'method': 'DELETE',
+      'success': callback,
+      'error': errCallback,
+    });
+  };
+  
 
   return {
-    getItems, createItem, updateItem
+    getItems, createItem, updateItem, deleteItem
   };
 }());
-
